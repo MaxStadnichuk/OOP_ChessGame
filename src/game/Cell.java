@@ -4,6 +4,10 @@ import game.pieces.Piece;
 import util.Position;
 
 public class Cell {
+    Cell(Position position, Piece piece) {
+        this.position = position;
+        this.piece = piece;
+    }
     private Position position;
     private Piece piece;
     private Color color;

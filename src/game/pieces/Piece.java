@@ -1,4 +1,4 @@
 package game.pieces;
 
-public class Piece {
+public abstract class Piece {
 }

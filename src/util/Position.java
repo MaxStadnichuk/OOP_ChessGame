@@ -6,6 +6,12 @@ public class Position {
     private int row;
     private int col;
 
+    public Position(int i, int j) {
+        this.row = i;
+        this.col = j;
+    }
+
+
     public int getRow() {
         return row;
     }
