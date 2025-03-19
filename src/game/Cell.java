@@ -4,13 +4,15 @@ import game.pieces.Piece;
 import util.Position;
 
 public class Cell {
+    private Position position;
+    private Piece piece;
+    private Color color;
+
     Cell(Position position, Piece piece) {
         this.position = position;
         this.piece = piece;
     }
-    private Position position;
-    private Piece piece;
-    private Color color;
+    Cell(){}
 
     public void clear() {
         this.piece = null;

@@ -6,9 +6,9 @@ public class Position {
     private int row;
     private int col;
 
-    public Position(int i, int j) {
-        this.row = i;
-        this.col = j;
+    public Position(int row, int col) {
+        this.row = row;
+        this.col = col;
     }
 
 
@@ -38,5 +38,12 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, col);
+    }
+
+    @Override
+    public String toString() {
+        char column = (char) ('a' + col);
+        int boardRow = row + 1;
+        return "" + column + boardRow;
     }
 }

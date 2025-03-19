@@ -4,7 +4,20 @@ import game.pieces.*;
 import util.Position;
 
 public class Board {
-    Cell[][] board = new Cell[8][8];
+    private Cell[][] board;
+
+    public Board() {
+        board = new Cell[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                board[i][j] = new Cell();
+            }
+        }
+    }
+
+    public Cell[][] getBoard() {
+        return board;
+    }
 
     public void setupInitialPosition(){
         int row = 0;
@@ -39,6 +52,32 @@ public class Board {
 
             }
             row++;
+        }
+    }
+
+    public void setupInitialColor(){
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if ((i + j) % 2 == 0) {
+                    board[i][j].setColor(Color.WHITE);
+                } else {
+                    board[i][j].setColor(Color.BLACK);
+                }
+            }
+        }
+    }
+
+    public void setupInitialPieceColor(){
+        for (int i = 0; i < board.length; i++) {
+            if (i == 0 || i == 1) {
+                for (int j = 0; j < board[i].length; j++) {
+                    board[i][j].getPiece().setColor(Color.WHITE);
+                }
+            } else if (i == 6 || i == 7) {
+                for (int j = 0; j < board[i].length; j++) {
+                    board[i][j].getPiece().setColor(Color.BLACK);
+                }
+            }
         }
     }
 }
