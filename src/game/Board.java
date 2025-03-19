@@ -3,6 +3,9 @@ package game;
 import game.pieces.*;
 import util.Position;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board {
     private Cell[][] board;
 
@@ -80,4 +83,20 @@ public class Board {
             }
         }
     }
+
+    public List<String> getAllPossibleMoves(Color color){
+        List<String> possibleMoves = new ArrayList<>();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j].getPiece() != null && board[i][j].getPiece().getColor() == color) {
+                    possibleMoves.addAll(board[i][j].getPiece().possibleMoves(this));
+                }
+            }
+        }
+        return possibleMoves;
+    }
+
+
 }
+
+
