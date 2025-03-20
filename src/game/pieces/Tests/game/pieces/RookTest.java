@@ -1,8 +1,6 @@
 package game.pieces;
 
 import game.Board;
-import game.pieces.Rook;
-import game.pieces.Piece;
 import org.junit.Before;
 import org.junit.Test;
 import util.Position;

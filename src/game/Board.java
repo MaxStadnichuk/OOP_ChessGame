@@ -11,9 +11,9 @@ public class Board {
 
     public Board() {
         board = new Cell[8][8];
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                board[i][j] = new Cell();
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                board[row][col] = new Cell(new Position(row, col));
             }
         }
     }
@@ -86,14 +86,21 @@ public class Board {
 
     public List<String> getAllPossibleMoves(Color color){
         List<String> possibleMoves = new ArrayList<>();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j].getPiece() != null && board[i][j].getPiece().getColor() == color) {
-                    possibleMoves.addAll(board[i][j].getPiece().possibleMoves(this));
+        for (Cell[] cells : board) {
+            for (Cell cell : cells) {
+                if (cell.getPiece() != null && cell.getPiece().getColor() == color) {
+                    possibleMoves.addAll(cell.getPiece().possibleMoves(this));
                 }
             }
         }
         return possibleMoves;
+    }
+
+    public List<String> getAllPossibleMovesExceptThisCell(Color color, Cell cellToClear){
+        Board tempBoard = new Board();
+        tempBoard.board = this.board;
+        tempBoard.board[cellToClear.getPosition().getRow()][cellToClear.getPosition().getCol()].clear();
+        return tempBoard.getAllPossibleMoves(color);
     }
 
 

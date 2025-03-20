@@ -2,8 +2,6 @@ package game.pieces;
 
 import game.Board;
 import game.Color;
-import game.pieces.Pawn;
-import game.pieces.Piece;
 import org.junit.Before;
 import org.junit.Test;
 import util.Position;

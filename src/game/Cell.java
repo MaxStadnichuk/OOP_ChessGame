@@ -12,6 +12,10 @@ public class Cell {
         this.position = position;
         this.piece = piece;
     }
+    public Cell(Position position) {
+        this.position = position;
+        this.piece = null;
+    }
     Cell(){}
 
     public void clear() {
