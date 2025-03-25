@@ -7,10 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Queen extends Piece{
-    @Override
-    public void moveTo(Position position) {
 
-    }
 
     @Override
     public List<String> possibleMoves(Board board) {

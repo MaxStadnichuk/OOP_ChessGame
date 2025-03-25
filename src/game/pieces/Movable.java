@@ -6,7 +6,6 @@ import util.Position;
 import java.util.List;
 
 public interface Movable {
-    public void moveTo(Position position);
 
     List<String> possibleMoves(Board board);
 

@@ -11,12 +11,6 @@ public class Pawn extends Piece{
     boolean enPassant = false;
 
     @Override
-    public void moveTo(Position position){
-        //TODO: Implement this method
-        this.setFirstMove(false);
-    }
-
-    @Override
     public List<String> possibleMoves(Board board) {
         List<String> possibleMoves = new ArrayList<>();
 
