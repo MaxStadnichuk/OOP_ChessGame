@@ -9,6 +9,14 @@ public abstract class Piece implements Movable {
     private Position position;
     private boolean firstMove;
 
+
+
+    public Piece(Position position, Color color) {
+        this.firstMove = true;
+        this.position = position;
+        this.color = color;
+    }
+
     public boolean isFirstMove() {
         return firstMove;
     }

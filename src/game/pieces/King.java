@@ -1,20 +1,23 @@
 package game.pieces;
 
 import game.Board;
+import game.Color;
+import game.Move;
+import game.MoveType;
 import util.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class King extends Piece {
-    @Override
-    public void moveTo(Position position) {
 
+    public King(Position position, Color color) {
+        super(position, color);
     }
 
     @Override
-    public List<String> possibleMoves(Board board) {
-        List<String> possibleMoves = new ArrayList<>();
+    public List<Move> possibleMoves(Board board) {
+        List<Move> possibleMoves = new ArrayList<>();
 
         // check up
         Position positionToMove = new Position(this.getPosition().getRow()+1, this.getPosition().getCol());
@@ -51,15 +54,25 @@ public class King extends Piece {
         return possibleMoves;
     }
 
-    private void checkCellForKing(Board board, List<String> possibleMoves, Position positionToMove) {
+    private void checkCellForKing(Board board, List<Move> possibleMoves, Position positionToMove) {
         if (checkCell(board, positionToMove)
-                && !board.getAllPossibleMovesExceptThisCell(this.getColor().getOpposite(), board.getBoard()[getPosition().getRow()][getPosition().getCol()]).contains(positionToMove.toString())) {
-            possibleMoves.add(positionToMove.toString());
+                && !containsMove(board.getAllPossibleMovesExceptThisCell(this.getColor().getOpposite(), board.getBoard()[getPosition().getRow()][getPosition().getCol()]), positionToMove)) {
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
         } else if (checkCellToAttack(board, positionToMove)
-                && !board.getAllPossibleMovesExceptThisCell(this.getColor().getOpposite(), board.getBoard()[getPosition().getRow()][getPosition().getCol()]).contains(positionToMove.toString())
-                && !board.getAllPossibleMovesExceptThisCell(this.getColor().getOpposite(), board.getBoard()[positionToMove.getRow()][positionToMove.getCol()]).contains(positionToMove.toString())) {
-            possibleMoves.add(positionToMove.toString());
+                && !containsMove(board.getAllPossibleMovesExceptThisCell(this.getColor().getOpposite(), board.getBoard()[getPosition().getRow()][getPosition().getCol()]), positionToMove)
+                && !containsMove(board.getAllPossibleMovesExceptThisCell(this.getColor().getOpposite(), board.getBoard()[positionToMove.getRow()][positionToMove.getCol()]), positionToMove)) {
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
 
         }
+    }
+
+    // Helper method: returns true if 'moves' contains a move with the given 'from' and 'to' positions.
+    private boolean containsMove(List<Move> moves, Position to) {
+        for (Move m : moves) {
+            if (m.getTo().equals(to)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

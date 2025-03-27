@@ -1,5 +1,8 @@
 package game;
 
+import game.pieces.King;
+import game.pieces.Pawn;
+import game.pieces.Piece;
 import util.Position;
 
 import java.util.Objects;
@@ -8,55 +11,63 @@ public class Move {
     private Position from;
     private Position to;
 
+    private Piece piece;
+
     private MoveType moveType;
     private CASTLING castlingType;
     private PROMOTION promotionType;
 
-    public Move(Position from, Position to, MoveType moveType, CASTLING castlingType) {
-        if (!validateMove(from, to, moveType, castlingType, null)) {
+    public Move(Position from, Position to, MoveType moveType, CASTLING castlingType, Piece piece) {
+        if (!validateMove(from, to, moveType, castlingType, null, piece)) {
             throw new IllegalArgumentException("Invalid move");
         }
+        this.piece = piece;
         this.from = from;
         this.to = to;
         this.moveType = moveType;
         this.castlingType = castlingType;
     }
 
-    public Move(Position from, Position to, MoveType moveType) {
-        if (!validateMove(from, to, moveType, null, null)) {
+    public Move(Position from, Position to, MoveType moveType, Piece piece) {
+        if (!validateMove(from, to, moveType, null, null, piece)) {
             throw new IllegalArgumentException("Invalid move");
         }
+        this.piece = piece;
         this.from = from;
         this.to = to;
         this.moveType = moveType;
     }
 
-    public Move(Position from, Position to, MoveType moveType, PROMOTION promotionType) {
-        if (!validateMove(from, to, moveType, null, promotionType)) {
+    public Move(Position from, Position to, MoveType moveType, PROMOTION promotionType, Piece piece) {
+        if (!validateMove(from, to, moveType, null, promotionType, piece)) {
             throw new IllegalArgumentException("Invalid move");
         }
+        this.piece = piece;
         this.from = from;
         this.to = to;
         this.moveType = moveType;
         this.promotionType = promotionType;
     }
 
-    private boolean validateMove(Position from, Position to, MoveType moveType, CASTLING castlingType, PROMOTION promotionType) {
-        if (from == null || to == null || moveType == null) {
+    private boolean validateMove(Position from, Position to, MoveType moveType, CASTLING castlingType, PROMOTION promotionType, Piece piece) {
+        if (from == null || to == null || moveType == null || piece == null) {
             return false;
         }
 
         return switch (moveType) {
-            case NORMAL, CAPTURE, EN_PASSANT ->
+            case NORMAL, CAPTURE ->
                     true;
+            case EN_PASSANT -> {
+                yield piece instanceof Pawn;
+            }
             case CASTLING -> {
-                if (castlingType == null) {
+                if (castlingType == null && !(piece instanceof King)) {
                     yield false;
                 }
                 yield castlingType == CASTLING.KINGSIDE || castlingType == CASTLING.QUEENSIDE;
             }
             case PROMOTION -> {
-                if (promotionType == null) {
+                if (promotionType == null && !(piece instanceof Pawn)) {
                     yield false;
                 }
                 yield promotionType == PROMOTION.QUEEN || promotionType == PROMOTION.ROOK || promotionType == PROMOTION.BISHOP || promotionType == PROMOTION.KNIGHT;
@@ -122,6 +133,22 @@ public class Move {
 
     public void setCastlingType(CASTLING castlingType) {
         this.castlingType = castlingType;
+    }
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
+
+    public PROMOTION getPromotionType() {
+        return promotionType;
+    }
+
+    public void setPromotionType(PROMOTION promotionType) {
+        this.promotionType = promotionType;
     }
 
     @Override

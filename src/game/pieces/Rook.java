@@ -1,73 +1,57 @@
 package game.pieces;
 
 import game.Board;
+import game.Color;
+import game.Move;
+import game.MoveType;
 import util.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rook extends Piece{
+public class Rook extends Piece {
 
+    public Rook(Position position, Color color) {
+        super(position, color);
+    }
 
     @Override
-    public List<String> possibleMoves(Board board) {
-        List<String> possibleMoves = new ArrayList<>();
+    public List<Move> possibleMoves(Board board) {
+        List<Move> possibleMoves = new ArrayList<>();
         Position currentPosition = this.getPosition();
         int currentRow = currentPosition.getRow();
         int currentCol = currentPosition.getCol();
 
-        // Check possible moves to the right
-        for (int col = currentCol + 1; col < 8; col++) {
-            Position positionToMove = new Position(currentRow, col);
-            if (checkCell(board, positionToMove)) {
-                possibleMoves.add(positionToMove.toString());
-            } else if (checkCellToAttack(board, positionToMove)) {
-                possibleMoves.add(positionToMove.toString());
-                break;
-            } else {
-                break;
-            }
-        }
-
-        // Check possible moves to the left
-        for (int col = currentCol - 1; col >= 0; col--) {
-            Position positionToMove = new Position(currentRow, col);
-            if (checkCell(board, positionToMove)) {
-                possibleMoves.add(positionToMove.toString());
-            } else if (checkCellToAttack(board, positionToMove)) {
-                possibleMoves.add(positionToMove.toString());
-                break;
-            } else {
-                break;
-            }
-        }
-
-        // Check possible moves up
-        for (int row = currentRow + 1; row < 8; row++) {
-            Position positionToMove = new Position(row, currentCol);
-            if (checkCell(board, positionToMove)) {
-                possibleMoves.add(positionToMove.toString());
-            } else if (checkCellToAttack(board, positionToMove)) {
-                possibleMoves.add(positionToMove.toString());
-                break;
-            } else {
-                break;
-            }
-        }
-
-        // Check possible moves down
-        for (int row = currentRow - 1; row >= 0; row--) {
-            Position positionToMove = new Position(row, currentCol);
-            if (checkCell(board, positionToMove)) {
-                possibleMoves.add(positionToMove.toString());
-            } else if (checkCellToAttack(board, positionToMove)) {
-                possibleMoves.add(positionToMove.toString());
-                break;
-            } else {
-                break;
-            }
-        }
+        // Check moves in all four directions:
+        // Right
+        addMovesInDirection(board, possibleMoves, currentRow, currentCol, 0, 1);
+        // Left
+        addMovesInDirection(board, possibleMoves, currentRow, currentCol, 0, -1);
+        // Up
+        addMovesInDirection(board, possibleMoves, currentRow, currentCol, 1, 0);
+        // Down
+        addMovesInDirection(board, possibleMoves, currentRow, currentCol, -1, 0);
 
         return possibleMoves;
+    }
+
+    private void addMovesInDirection(Board board, List<Move> moves, int startRow, int startCol, int deltaRow, int deltaCol) {
+        for (int i = 1; i < 8; i++) {
+            int newRow = startRow + deltaRow * i;
+            int newCol = startCol + deltaCol * i;
+            Position positionToMove = new Position(newRow, newCol);
+            // Check board boundaries (assuming board size is 8)
+            if (newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8) {
+                break;
+            }
+            if (checkCell(board, positionToMove)) {
+                moves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
+            } else if (checkCellToAttack(board, positionToMove)) {
+                moves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
+                break;
+            } else {
+                break;
+            }
+        }
     }
 }

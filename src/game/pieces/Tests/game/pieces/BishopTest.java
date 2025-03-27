@@ -1,6 +1,8 @@
 package game.pieces;
 
 import game.Board;
+import game.Color;
+import game.Move;
 import game.pieces.Bishop;
 import game.pieces.Piece;
 import org.junit.Before;
@@ -9,36 +11,55 @@ import util.Position;
 
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class BishopTest {
     private Board board;
     private Piece bishop;
 
+    public boolean containsMove(List<Move> moves, Position to) {
+        for (Move m : moves) {
+            if (m.getTo().equals(to)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Before
     public void setUp() {
         board = new Board();
         bishop = new Bishop();
-        bishop.setPosition(new Position(3, 3)); // Place bishop at d4
+        bishop.setColor(Color.WHITE);
+        bishop.setPosition(new Position(3, 3)); //bishop at d4
         board.getBoard()[3][3].setPiece(bishop);
     }
 
     @Test
     public void testPossibleMoves() {
-        List<String> moves = bishop.possibleMoves(board);
-        System.out.println(moves);
-        assertTrue(moves.contains("e5"));
-        assertTrue(moves.contains("f6"));
-        assertTrue(moves.contains("g7"));
-        assertTrue(moves.contains("h8"));
-        assertTrue(moves.contains("c5"));
-        assertTrue(moves.contains("b6"));
-        assertTrue(moves.contains("a7"));
-        assertTrue(moves.contains("e3"));
-        assertTrue(moves.contains("f2"));
-        assertTrue(moves.contains("g1"));
-        assertTrue(moves.contains("c3"));
-        assertTrue(moves.contains("b2"));
-        assertTrue(moves.contains("a1"));
+        List<Move> moves = bishop.possibleMoves(board);
+
+        assertNotNull(moves);
+
+        // Up-right
+        assertTrue("from d4 to e5", containsMove(moves, new Position(4, 4)));
+        assertTrue("from d4 to f6", containsMove(moves, new Position(5, 5)));
+        assertTrue("from d4 to g7", containsMove(moves, new Position(6, 6)));
+        assertTrue("from d4 to h8", containsMove(moves, new Position(7, 7)));
+
+        // Up-left
+        assertTrue("from d4 to c5", containsMove(moves,  new Position(4, 2)));
+        assertTrue("from d4 to b6", containsMove(moves,  new Position(5, 1)));
+        assertTrue("from d4 to a7", containsMove(moves,  new Position(6, 0)));
+
+        // Down-right
+        assertTrue("from d4 to e3", containsMove(moves,  new Position(2, 4)));
+        assertTrue("from d4 to f2", containsMove(moves,  new Position(1, 5)));
+        assertTrue("from d4 to g1", containsMove(moves,  new Position(0, 6)));
+
+        // Down-left
+        assertTrue("from d4 to c3", containsMove(moves,  new Position(2, 2)));
+        assertTrue("from d4 to b2", containsMove(moves,  new Position(1, 1)));
+        assertTrue("from d4 to a1", containsMove(moves,  new Position(0, 0)));
     }
 }

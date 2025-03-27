@@ -1,13 +1,14 @@
 package game.pieces;
 
 import game.Board;
+import game.Move;
 import util.Position;
 
 import java.util.List;
 
 public interface Movable {
 
-    List<String> possibleMoves(Board board);
+    List<Move> possibleMoves(Board board);
 
     boolean checkCell(Board board, Position position);
 

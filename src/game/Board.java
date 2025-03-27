@@ -30,20 +30,22 @@ public class Board {
             // Set up the pawns
             if (i == 1 || i == 6) {
                 for (int j = 0; j < board[i].length; j++) {
-                    board[i][j] = new Cell(new Position(i, j), new Pawn());
+                    Position position = new Position(i, col);
+                    board[i][j] = new Cell(position, new Pawn(position, color));
                 }
             } else if (i == 0 || i == 7){ // Set up the rest of the pieces
                 for (col = 0; col < board[i].length; col++) {
+                    Position position = new Position(i, col);
                     if (col == 0 || col == 7) {
-                        board[i][col] = new Cell(new Position(row, col), new Rook());
+                        board[i][col] = new Cell(position, new Rook(position, color));
                     } else if (col == 1 || col == 6) {
-                        board[i][col] = new Cell(new Position(row, col), new Knight());
+                        board[i][col] = new Cell(position, new Knight(position, color));
                     } else if (col == 2 || col == 5) {
-                        board[i][col] = new Cell(new Position(row, col), new Bishop());
+                        board[i][col] = new Cell(position, new Bishop(position, color));
                     } else if (col == 3) {
-                        board[i][col] = new Cell(new Position(row, col), new Queen());
+                        board[i][col] = new Cell(position, new Queen(position, color));
                     } else if (col == 4) {
-                        board[i][col] = new Cell(new Position(row, col), new King());
+                        board[i][col] = new Cell(position, new King(position, color));
                     }
                 }
                 col = 0;
@@ -84,8 +86,8 @@ public class Board {
         }
     }
 
-    public List<String> getAllPossibleMoves(Color color){
-        List<String> possibleMoves = new ArrayList<>();
+    public List<Move> getAllPossibleMoves(Color color){
+        List<Move> possibleMoves = new ArrayList<>();
         for (Cell[] cells : board) {
             for (Cell cell : cells) {
                 if (cell.getPiece() != null && cell.getPiece().getColor() == color) {
@@ -96,11 +98,16 @@ public class Board {
         return possibleMoves;
     }
 
-    public List<String> getAllPossibleMovesExceptThisCell(Color color, Cell cellToClear){
+    public List<Move> getAllPossibleMovesExceptThisCell(Color color, Cell cellToClear){
         Board tempBoard = new Board();
         tempBoard.board = this.board;
         tempBoard.board[cellToClear.getPosition().getRow()][cellToClear.getPosition().getCol()].clear();
-        return tempBoard.getAllPossibleMoves(color);
+        List<Move> result = tempBoard.getAllPossibleMoves(color);
+        for (Move move : result) {
+            System.out.print(move.getTo().toString()+" ");
+        }
+        System.out.println("getAllPossibleMovesExceptThisCell cout: "+result.size());
+        return result;
     }
 
 

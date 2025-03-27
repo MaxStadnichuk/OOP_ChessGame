@@ -1,6 +1,9 @@
 package game.pieces;
 
 import game.Board;
+import game.Color;
+import game.Move;
+import game.MoveType;
 import util.Position;
 
 import java.util.ArrayList;
@@ -8,9 +11,13 @@ import java.util.List;
 
 public class Knight extends Piece{
 
+    public Knight(Position position, Color color) {
+        super(position, color);
+    }
+
     @Override
-    public List<String> possibleMoves(Board board) {
-        List<String> possibleMoves = new ArrayList<>();
+    public List<Move> possibleMoves(Board board) {
+        List<Move> possibleMoves = new ArrayList<>();
 
         Position positionToMove = new Position(this.getPosition().getRow(), this.getPosition().getCol());
         // Check possible moves for knight
@@ -20,9 +27,9 @@ public class Knight extends Piece{
                 this.getPosition().getCol()+1);
 
         if (checkCell(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
         } else if (checkCellToAttack(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
         }
 
         // check up left
@@ -30,9 +37,9 @@ public class Knight extends Piece{
                 this.getPosition().getCol()-1);
 
         if (checkCell(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
         } else if (checkCellToAttack(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
         }
 
         // check right up
@@ -40,9 +47,9 @@ public class Knight extends Piece{
                 this.getPosition().getCol()+2);
 
         if (checkCell(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
         } else if (checkCellToAttack(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
         }
 
         // check right down
@@ -50,9 +57,9 @@ public class Knight extends Piece{
                 this.getPosition().getCol()+2);
 
         if (checkCell(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
         } else if (checkCellToAttack(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
         }
 
         // check down right
@@ -60,9 +67,9 @@ public class Knight extends Piece{
                 this.getPosition().getCol()+1);
 
         if (checkCell(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
         } else if (checkCellToAttack(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
         }
 
         // check down left
@@ -70,9 +77,9 @@ public class Knight extends Piece{
                 this.getPosition().getCol()-1);
 
         if (checkCell(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
         } else if (checkCellToAttack(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
         }
 
         // check left up
@@ -80,9 +87,9 @@ public class Knight extends Piece{
                 this.getPosition().getCol()-2);
 
         if (checkCell(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
         } else if (checkCellToAttack(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
         }
 
         // check left down
@@ -90,9 +97,9 @@ public class Knight extends Piece{
                 this.getPosition().getCol()-2);
 
         if (checkCell(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
         } else if (checkCellToAttack(board, positionToMove)) {
-            possibleMoves.add(positionToMove.toString());
+            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
         }
 
         return possibleMoves;
