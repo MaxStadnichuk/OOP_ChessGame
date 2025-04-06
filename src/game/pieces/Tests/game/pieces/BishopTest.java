@@ -29,7 +29,7 @@ public class BishopTest {
     @Before
     public void setUp() {
         board = new Board();
-        bishop = new Bishop();
+        bishop = new Bishop(); // wrong constructor
         bishop.setColor(Color.WHITE);
         bishop.setPosition(new Position(3, 3)); //bishop at d4
         board.getBoard()[3][3].setPiece(bishop);

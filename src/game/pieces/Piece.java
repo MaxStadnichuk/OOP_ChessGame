@@ -4,7 +4,11 @@ import game.Board;
 import game.Color;
 import util.Position;
 
+//* TODO: Create a PDF document with pointing on OOP principles and how they are used in the project
+
+//Abstraction
 public abstract class Piece implements Movable {
+    // encapsulation
     private Color color;
     private Position position;
     private boolean firstMove;
@@ -15,6 +19,10 @@ public abstract class Piece implements Movable {
         this.firstMove = true;
         this.position = position;
         this.color = color;
+    }
+
+    public Piece() {
+
     }
 
     public boolean isFirstMove() {

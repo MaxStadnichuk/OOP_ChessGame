@@ -34,14 +34,14 @@ public class PawnTest {
         // white pawn at b2
         whitePawn = new Pawn();
         whitePawn.setColor(Color.WHITE);
-        whitePawn.setPosition(new Position(1, 1));
-        board.getBoard()[1][1].setPiece(whitePawn);
+        whitePawn.setPosition(new Position(6, 1));
+        board.getBoard()[6][1].setPiece(whitePawn);
 
         // black pawn at b7
         blackPawn = new Pawn();
         blackPawn.setColor(Color.BLACK);
-        blackPawn.setPosition(new Position(6, 1));
-        board.getBoard()[6][1].setPiece(blackPawn);
+        blackPawn.setPosition(new Position(1, 1));
+        board.getBoard()[1][1].setPiece(blackPawn);
     }
 
     @Test
@@ -52,9 +52,9 @@ public class PawnTest {
 
         // b3 and b4
         assertTrue("can move to b3",
-                containsMove(moves, new Position(2, 1)));
+                containsMove(moves, new Position(5, 1)));
         assertTrue("can move to b4",
-                containsMove(moves, new Position(3, 1)));
+                containsMove(moves, new Position(4, 1)));
     }
 
     @Test
@@ -63,8 +63,8 @@ public class PawnTest {
         assertNotNull(moves);
         // b6 and b5
         assertTrue("can move to b6",
-                containsMove(moves, new Position(5, 1)));
+                containsMove(moves, new Position(2, 1)));
         assertTrue("can move to b5",
-                containsMove(moves, new Position(4, 1)));
+                containsMove(moves, new Position(3, 1)));
     }
 }

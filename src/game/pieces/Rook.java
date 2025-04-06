@@ -9,10 +9,15 @@ import util.Position;
 import java.util.ArrayList;
 import java.util.List;
 
+// inheritance
 public class Rook extends Piece {
 
+    // Constructor overloading
     public Rook(Position position, Color color) {
         super(position, color);
+    }
+    public Rook() {
+        super();
     }
 
     @Override

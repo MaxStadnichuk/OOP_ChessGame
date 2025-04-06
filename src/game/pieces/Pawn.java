@@ -9,10 +9,14 @@ import util.Position;
 import java.util.ArrayList;
 import java.util.List;
 
+// inheritance
 public class Pawn extends Piece{
 
     public Pawn(Position position, Color color) {
         super(position, color);
+    }
+    public Pawn() {
+        super();
     }
 
     boolean enPassant = false;
@@ -21,51 +25,48 @@ public class Pawn extends Piece{
     public List<Move> possibleMoves(Board board) {
         List<Move> possibleMoves = new ArrayList<>();
 
-
-        // Check possible moves for white pawn
         if (this.getColor() == Color.WHITE) {
-            Position positionToMove = new Position(this.getPosition().getRow() + 1, this.getPosition().getCol());
-            if (checkCell(board, positionToMove)) {
-                possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
+            // one step forward for white = row - 1
+            Position oneStep = new Position(this.getPosition().getRow() - 1, this.getPosition().getCol());
+            if (checkCell(board, oneStep)) {
+                possibleMoves.add(new Move(this.getPosition(), oneStep, MoveType.NORMAL, this));
             }
-            checkRightLeftCells(board, positionToMove, possibleMoves);
-
-            positionToMove = new Position(this.getPosition().getRow() + 2, this.getPosition().getCol());
-            if (checkCell(board, positionToMove) && this.getPosition().getRow() == 1) {
-                possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
+            // diagonal capture moves
+            Position diagRight = new Position(this.getPosition().getRow() - 1, this.getPosition().getCol() + 1);
+            if (checkCellToAttack(board, diagRight)) {
+                possibleMoves.add(new Move(this.getPosition(), diagRight, MoveType.CAPTURE, this));
+            }
+            Position diagLeft = new Position(this.getPosition().getRow() - 1, this.getPosition().getCol() - 1);
+            if (checkCellToAttack(board, diagLeft)) {
+                possibleMoves.add(new Move(this.getPosition(), diagLeft, MoveType.CAPTURE, this));
+            }
+            // two-step forward
+            Position twoStep = new Position(this.getPosition().getRow() - 2, this.getPosition().getCol());
+            if (checkCell(board, twoStep) && this.getPosition().getRow() == 6) {
+                possibleMoves.add(new Move(this.getPosition(), twoStep, MoveType.NORMAL, this));
+            }
+        } else if (this.getColor() == Color.BLACK) {
+            // one step forward for black = row + 1
+            Position oneStep = new Position(this.getPosition().getRow() + 1, this.getPosition().getCol());
+            if (checkCell(board, oneStep)) {
+                possibleMoves.add(new Move(this.getPosition(), oneStep, MoveType.NORMAL, this));
+            }
+            // diagonal capture moves
+            Position diagRight = new Position(this.getPosition().getRow() + 1, this.getPosition().getCol() + 1);
+            if (checkCellToAttack(board, diagRight)) {
+                possibleMoves.add(new Move(this.getPosition(), diagRight, MoveType.CAPTURE, this));
+            }
+            Position diagLeft = new Position(this.getPosition().getRow() + 1, this.getPosition().getCol() - 1);
+            if (checkCellToAttack(board, diagLeft)) {
+                possibleMoves.add(new Move(this.getPosition(), diagLeft, MoveType.CAPTURE, this));
+            }
+            // two-step forward
+            Position twoStep = new Position(this.getPosition().getRow() + 2, this.getPosition().getCol());
+            if (checkCell(board, twoStep) && this.getPosition().getRow() == 1) {
+                possibleMoves.add(new Move(this.getPosition(), twoStep, MoveType.NORMAL, this));
             }
         }
-        // Check possible moves for black pawn
-        if (this.getColor() == Color.BLACK) {
-            Position positionToMove = new Position(this.getPosition().getRow() - 1, this.getPosition().getCol());
-            if (checkCell(board, positionToMove)) {
-                System.out.println("Adding move");
-                possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
-                System.out.println(possibleMoves);
-            }
-            checkRightLeftCells(board, positionToMove, possibleMoves);
-
-            positionToMove = new Position(this.getPosition().getRow() - 2, this.getPosition().getCol());
-            if (checkCell(board, positionToMove) && this.getPosition().getRow() == 6) {
-                possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.NORMAL, this));
-            }
-        }
-
-        System.out.println(possibleMoves);
         return possibleMoves;
-    }
-
-    private void checkRightLeftCells(Board board, Position positionToMove, List<Move> possibleMoves) {
-        positionToMove.setCol(this.getPosition().getCol() + 1);
-        if (checkCellToAttack(board, positionToMove)) {
-            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
-        }
-        positionToMove.setCol(this.getPosition().getCol() - 1);
-        if (checkCellToAttack(board, positionToMove)) {
-            possibleMoves.add(new Move(this.getPosition(), positionToMove, MoveType.CAPTURE, this));
-        }
-        //return to initial column
-        positionToMove.setCol(this.getPosition().getCol());
     }
 
     public boolean isEnPassantAvailable() {

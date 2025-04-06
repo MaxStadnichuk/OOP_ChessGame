@@ -9,10 +9,14 @@ import util.Position;
 import java.util.ArrayList;
 import java.util.List;
 
+// inheritance
 public class King extends Piece {
 
     public King(Position position, Color color) {
         super(position, color);
+    }
+    public King() {
+        super();
     }
 
     @Override
